@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portifolio Online</title>
+    <script src="https://unpkg.com/@rive-app/canvas@latest"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #000000;
+            font-family: Arial, Helvetica, sans-serif;
+            overflow: hidden;
+        }
+
+        canvas {
+            background-color: #000000;
+        }
+
+        .typewriter {
+            font-size: 32px;
+            color: #00bfff;
+            text-shadow: 0 0 10px #00bfff, 0 0 20px #00bfff;
+            display: flex;
+            align-items: center;
+            margin-top: 20px; 
+        }
+
+        .cursor {
+            margin-left: 5px;
+            width: 1em;
+            height: 3px;
+            background-color: #00bfff;
+            animation: blink 0.5s step-end infinite;
+            display: inline-block;
+            position: relative;
+            top: 0.25em; 
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="riveCanvas" width="500" height="410"></canvas>
+    <div class="typewriter" id="typewriter">
+        <span id="text"></span>
+    </div>
+    <script src="js/cursorAnime.js"></script>
+    <script src="js/arquivoRive.js"></script>
+</body>
+</html>
