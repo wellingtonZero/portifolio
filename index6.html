@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portifolio Online</title>
+    <script src="https://unpkg.com/@rive-app/canvas@latest"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            background-color: #000000;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #00bfff;
+        }
+
+        #message {
+            margin-top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="riveCanvas" width="500" height="410"></canvas>
+    <div id="message">Carregando...</div>
+
+    <script>
+        const layout = new rive.Layout({});
+        const riveInstance = new rive.Rive({
+            src: "assets/moldura.riv",
+            stateMachines: "anime",
+            canvas: document.getElementById("riveCanvas"),
+            layout: layout,
+            autoplay: true,
+            onLoad: () => {
+                console.log("Arquivo Rive carregado com sucesso!");
+
+                // Acessar a máquina de estados
+                const stateMachineInputs = riveInstance.stateMachineInputs("anime");
+
+                // Verificar se as entradas booleanas existem
+                const desligada = stateMachineInputs.find(input => input.name === "desligou");
+                const ligada = stateMachineInputs.find(input => input.name === "ligou");
+
+                if (!desligada || !ligada) {
+                    console.error("Erro: Entradas 'desligou' e/ou 'ligou' não encontradas!");
+                    document.getElementById("message").textContent = "Erro ao carregar entradas.";
+                    return;
+                }
+
+                console.log("Entradas encontradas: ", { desligada, ligada });
+
+                const messageDiv = document.getElementById("message");
+
+                // Função para monitorar mudanças nos valores das entradas
+                function checkStates() {
+                    if (desligada.value) {
+                        console.log("Estado: Desligado");
+                        messageDiv.textContent = "Desligado";
+                    } else if (ligada.value) {
+                        console.log("Estado: Ligado");
+                        messageDiv.textContent = "Ligado";
+                    } else {
+                        console.log("Estado: Nenhum ativo");
+                        messageDiv.textContent = "Nenhum estado ativo";
+                    }
+                }
+
+                // Verificar mudanças no estado periodicamente
+                setInterval(() => {
+                    checkStates();
+                }, 100); // Verifica a cada 100ms
+            },
+            onError: (error) => {
+                console.error("Erro ao carregar o arquivo Rive:", error);
+                document.getElementById("message").textContent = "Erro ao carregar animação.";
+            }
+        });
+    </script>
+</body>
+
+</html>

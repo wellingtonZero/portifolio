@@ -5,4 +5,5 @@ const layout = new rive.Layout({});
             canvas: document.getElementById("riveCanvas"),
             layout: layout,
             autoplay: true,
-        })
+        },
+    )
