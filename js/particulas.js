@@ -1,47 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Background Animado</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            overflow: hidden;
-            background-color: #001122;
-        }
-
-        canvas {
-            display: block;
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-    </style>
-</head>
-<body>
-    <canvas id="background"></canvas>
-
-    <script>
-        const canvas = document.getElementById("background");
-        const ctx = canvas.getContext("2d");
+const canvas2 = document.getElementById("background");
+        const ctx = canvas2.getContext("2d");
 
         // Ajustar o tamanho do canvas para preencher a tela
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        canvas2.width = window.innerWidth;
+        canvas2.height = window.innerHeight;
 
         const particlesArray = [];
-        const numParticles = 50;
+        const numParticles = 100;
 
         // Função para redimensionar o canvas ao ajustar o tamanho da janela
         window.addEventListener("resize", () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            canvas2.width = window.innerWidth;
+            canvas2.height = window.innerHeight;
         });
 
         // Classe para criar as partículas
@@ -69,16 +39,16 @@
                 this.y += this.dy;
 
                 // Rebater nas bordas
-                if (this.x < 0 || this.x > canvas.width) this.dx *= -1;
-                if (this.y < 0 || this.y > canvas.height) this.dy *= -1;
+                if (this.x < 0 || this.x > canvas2.width) this.dx *= -1;
+                if (this.y < 0 || this.y > canvas2.height) this.dy *= -1;
             }
         }
 
         // Criar partículas
         for (let i = 0; i < numParticles; i++) {
-            const size = Math.random() * 1 + 1; // Tamanho da partícula
-            const x = Math.random() * canvas.width;
-            const y = Math.random() * canvas.height;
+            const size = Math.random() * 1 + 4; // Tamanho da partícula
+            const x = Math.random() * canvas2.width;
+            const y = Math.random() * canvas2.height;
             const dx = (Math.random() - 0.5) ; // Velocidade horizontal
             const dy = (Math.random() - 0.5) ; // Velocidade vertical
 
@@ -94,9 +64,12 @@
                     const distance = Math.sqrt(dx * dx + dy * dy);
 
                     if (distance < 100) {
+                        const opacity = 1 - distance / 120;
                         ctx.beginPath();
-                        ctx.strokeStyle = "rgba(255, 255, 255, 0.1)";
-                        ctx.lineWidth = 1;
+                        ctx.strokeStyle = `rgba(0, 191, 255, ${opacity})`; 
+                        ctx.lineWidth = 3;
+                        ctx.shadowColor = "#00bfff";
+                        ctx.shadowBlur = 10;
                         ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
                         ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
                         ctx.stroke();
@@ -107,7 +80,7 @@
 
         // Função de animação
         function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.clearRect(0, 0, canvas2.width, canvas2.height);
 
             particlesArray.forEach((particle) => {
                 particle.draw();
@@ -119,6 +92,3 @@
         }
 
         animate();
-    </script>
-</body>
-</html>
