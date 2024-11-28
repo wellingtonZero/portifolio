@@ -1,33 +1,188 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portifolio Online</title>
+    <title>Design com Linhas</title>
     <script src="https://unpkg.com/@rive-app/canvas@latest"></script>
+
     <style>
         body {
+            margin: 0;
+            padding: 0;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            margin: 0;
             background-color: #000000;
-            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .container {
+            position: relative;
+            width: 250%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .top-bar {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 50px;
+            background: #004433;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+            clip-path: polygon(0% 0%, 100% 0%, 90% 100%, 10% 100%);
+        }
+
+        .top-bar:before,
+        .top-bar:after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            width: 20%;
+            height: 2px;
+            background-color: rgb(0, 195, 255);
+            box-shadow: 0 0 10px rgb(0, 203, 253), 0 0 20px rgb(0, 195, 255);
+        }
+
+        .top-bar:before {
+            left: 5%;
+            transform: translateY(-50%);
+        }
+
+        .top-bar:after {
+            right: 5%;
+            transform: translateY(-50%);
+        }
+
+        .date-container {
+            text-align: center;
+            color: white;
+        }
+
+        .date-container .month {
+            font-size: 15px;
+            text-transform: uppercase;
+            color: rgb(0, 183, 255);
+        }
+
+        .date-container .day {
+            font-size: 20px;
+            color: rgb(0, 212, 240);
+            font-weight: bold;
+        }
+
+        .date-container .year {
+            font-size: 12px;
+            color: white;
+        }
+
+        .bottom-line {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            width: 90%;
+            height: 2px;
+            background: rgb(0, 217, 255);
+            transform: translateX(-50%);
+            box-shadow: 0 0 10px rgb(0, 217, 255), 0 0 20px rgb(0, 217, 255);
         }
 
         canvas {
-            background-color: #000000;
+            width: 50%;
+            height: auto;
+            background-color: #00000000;
+            transition: transform 0.5s ease, width 0.5s ease;
+        }
+
+        .canvas-move {
+            transform: translate(-200%, 35%);
+            width: 20%;
+        }
+
+
+        #riveCanvasMoldura {
+            position: absolute;
+            z-index: 4;
+        }
+
+        #riveCanvasMenu {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-249%, 410%);
+            z-index: 5;
+            /* Certifique-se de que o canvas menu esteja acima de outros elementos */
+            background-color: transparent;
+            width: 20%;
+        }
+
+        #riveCanvasTexto {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-30%, -55%);
+            z-index: 6;
+            /* Certifique-se de que o canvas menu esteja acima de outros elementos */
+            background-color: transparent;
+            visibility: hidden;
+            width: 60%;
+            height: 80%
+        }
+
+        .center {
+            position: absolute;
+            top: 60%;
+            left: 49%;
+            transform: translate(-140%, -68%);
+            transition: all 0.5s ease;
+            width: 30%;
+            z-index: 4;
+        }
+
+        .container-filho {
+            position: absolute;
+            top: 55px;
+            width: 0;
+            height: 0;
+            background-color: #000;
+            border: 2px solid #000;
+            border-radius: 10px;
+            border-color: rgb(0, 162, 255);
+            display: flex;
+            justify-content: center;
+            align-items: start;
+            z-index: 4;
+            transform-origin: center;
+            transition: width 1s ease-out, height 1s ease-out;
+        }
+
+        #background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            /* Canvas de fundo */
+        }
+
+        h1 {
+            color: white;
         }
 
         .typewriter {
-            font-size: 32px;
-            color: #00bfff;
-            text-shadow: 0 0 10px #00bfff, 0 0 20px #00bfff;
-            display: flex;
-            align-items: center;
             margin-top: 20px;
+            font-size: 30px;
+            text-align: center;
+            color: rgb(0, 225, 255);
+            visibility: hidden;
         }
 
         .cursor {
@@ -37,8 +192,6 @@
             background-color: #00bfff;
             animation: blink 0.5s step-end infinite;
             display: inline-block;
-            position: relative;
-            top: 0.25em;
         }
 
         @keyframes blink {
@@ -47,41 +200,180 @@
             }
         }
 
-        .container {
-            width: 500px;
-            height: 500px;
-            background-color: blue;
+        .expanded {
+            width: 80%;
+            height: 65%;
         }
     </style>
 </head>
+
 <body>
-    <div class="typewriter">
-        <span class="typewriter-text" texto="Portifolio"></span>
+    <div class="container">
+        <canvas id="background"></canvas>
+        <div class="container-filho">
+            <div class="typewriter">
+                <span class="typewriter-text" texto="Apresentação"></span>
+                <div class="cursor"></div>
+            </div>
+        </div>
+        <!-- Top Bar com Linhas -->
+        <div class="top-bar">
+            <div class="date-container">
+                <div class="month"></div>
+                <div class="day"></div>
+                <div class="year"></div>
+            </div>
+        </div>
+        <!-- Linha Neon Inferior -->
+        <div class="bottom-line"></div>
     </div>
-    <canvas id="riveCanvas" width="500" height="410"></canvas>
-    <div class="typewriter">
-        <span class="typewriter-text" texto="Sou Desenvolvedor de Front-End."></span>
-        <div class="cursor"></div>
-    </div>
-    <div class="container"></div>
-    <script>
-        const typingSpeed = 100; 
+    <canvas id="riveCanvasMoldura" class="canvas-move" width="500" height="500"></canvas>
+    <canvas id="riveCanvasMenu" width="500" height="100"></canvas>
+    <canvas id="riveCanvasTexto" width="800" height="455"></canvas>
+
+
+    <script>// Selecionar elementos
+        const container = document.querySelector('.container-filho');;
+        const typewriterText = document.querySelector('.typewriter-text');
+        const cursor = document.querySelector('.cursor');
+        const typingSpeed = 100;
+        let typingTimeout; // Para controlar o typing
+        let contador = 0;
+
+        // Função de digitação
         function typeWriter(element) {
-            const text = element.getAttribute('texto'); // Obtém o texto do atributo data-text
-            let index = 0;
-            function type() {
-                if (index < text.length) {
-                    element.innerHTML += text.charAt(index); // Adiciona uma letra ao texto
-                    index++;
-                    setTimeout(type, typingSpeed);
+            if (contador == 1) {
+                console.log("entrou no typewriter");
+                const text = element.getAttribute('texto');
+                element.innerHTML = ''; // Reseta o texto
+                let index = 0;
+                cursor.style.display = 'inline-block'; // Garante que o cursor esteja visível
+
+                function type() {
+                    if (index < text.length) {
+                        element.innerHTML += text.charAt(index);
+                        index++;
+                        typingTimeout = setTimeout(type, typingSpeed);
+                    } else {
+                        // Cursor continuará piscando após digitação
+                        cursor.style.display = 'inline-block';
+                    }
                 }
+                type();
+            } else {
+                console.log("saiu");
             }
-            type();
         }
-        document.querySelectorAll('.typewriter-text').forEach((element) => {
-            typeWriter(element);
+        const canvas = document.getElementById("riveCanvasMoldura");
+        const canvasmenu = document.getElementById("riveCanvasMenu");
+        const canvastexto = document.getElementById("riveCanvasTexto");
+        const toggleButton = document.getElementById("toggleButton");
+        const typewriterElement = document.querySelector('.typewriter');
+        // Carregar moldura.riv
+        const riveMoldura = new rive.Rive({
+            src: "assets/moldura.riv",
+            stateMachines: "anime",
+            canvas: canvas,
+            autoplay: true,
+            onLoad: () => {
+                // Obter inputs da State Machine
+                const inputsMoldura = riveMoldura.stateMachineInputs("anime");
+                const desligadaInput = inputsMoldura.find(input => input.name === "desligou");
+                const ligadaInput = inputsMoldura.find(input => input.name === "ligou");
+
+                // Monitorar alterações nos estados de moldura.riv
+                riveMoldura.on("statechange", () => {
+                    if (ligadaInput.value) {
+                        console.log(contador);
+                        canvas.classList.add("center");
+                        canvas.classList.remove("canvas-move");
+                        // aciona efeito de digitação do texto
+                        typewriterElement.style.visibility = 'visible';
+                        typewriterElement.style.display = 'block'
+
+                        canvastexto.style.visibility = 'visible';
+                        canvastexto.style.display = 'block'
+                        // Animar o crescimento do container
+                        const container = document.querySelector('.container-filho');
+                        container.style.width = '80%';
+                        container.style.height = '65%';
+                       
+                        setTimeout(() => typeWriter(typewriterText), 1000);
+                        contador += 1;
+                        // Sincronizar com menu.riv
+                        if (riveInstancemenu) {
+                            const ligadoMenu = riveInstancemenu.stateMachineInputs("menuPerfil")
+                                .find(input => input.name === "ligarPerfil");
+                            if (ligadoMenu) ligadoMenu.value = true; // Ativar no menu.riv
+                        }
+                        
+                        setTimeout(() => {
+                            if (riveInstanceTexto) {
+                                const ligadoMenuTexto = riveInstanceTexto.stateMachineInputs("animaContainer")
+                                    .find(input => input.name === "abrirContainer");
+                                if (ligadoMenuTexto) ligadoMenuTexto.value = true; // Ativar no menu.riv
+                            }
+                        }, 1000); 
+                    }
+                    if (desligadaInput.value) {
+                        contador = 0;
+                        canvas.classList.remove("center");
+                        canvas.classList.add("canvas-move");
+                        //retirar o texto principal
+                        typewriterElement.style.display = 'none';
+                        canvastexto.style.display = 'none';
+                        //canvastexto.style.display = 'none';
+                        typewriterElement.querySelector('.typewriter-text').innerHTML = '';
+                        //retirar o container animado
+                        const container = document.querySelector('.container-filho');
+                        container.style.width = '0';
+                        container.style.height = '0';
+                        // Sincronizar com menu.riv
+                        if (riveInstancemenu) {
+                            const ligadoMenu = riveInstancemenu.stateMachineInputs("menuPerfil")
+                                .find(input => input.name === "ligarPerfil");
+                            if (ligadoMenu) ligadoMenu.value = false; // Desativar no menu.riv
+                        }
+                        
+                        if (riveInstanceTexto) {
+                            const ligadoMenuTexto = riveInstanceTexto.stateMachineInputs("animaContainer")
+                                .find(input => input.name === "abrirContainer");
+                            if (ligadoMenuTexto) ligadoMenuTexto.value = false; // Ativar no menu.riv
+                        }
+                    }
+                });
+            },
+
         });
+        // Carregar menu.riv
+        const riveInstancemenu = new rive.Rive({
+            src: "assets/menupe.riv",
+            stateMachines: "menuPerfil",
+            canvas: canvasmenu,
+            autoplay: true,
+            onLoad: () => {
+                const inputsMenu = riveInstancemenu.stateMachineInputs("menuPerfil");
+                const ligadoInputMenu = inputsMenu.find(input => input.name === "ligarPerfil");
+            },
+            onError: (error) => {
+                console.error("Erro ao carregar o menu.riv:", error);
+            },
+        });
+        
+        const riveInstanceTexto = new rive.Rive({
+            src: "assets/container.riv",
+            stateMachines: "animaContainer",
+            canvas: canvastexto,
+            autoplay: true,
+            onLoad: () => {
+                const inputsMenuTexto = riveInstanceTexto.stateMachineInputs("animaContainer");
+                const ligadoInputTexto = inputsMenuTexto.find(input => input.name === "abrirContainer");
+            }
+        });
+        
     </script>
-    <script src="js/arquivoRive.js"></script>
+    <script src="js/particulas.js"></script>
+
 </body>
+
 </html>

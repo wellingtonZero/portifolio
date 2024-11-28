@@ -22,3 +22,36 @@ const canvas = document.getElementById('riveCanvas');
                 });
             },
         });
+
+
+const canvasmenu = document.getElementById('riveCanvasMenu');
+const toggleButton = document.getElementById("toggleButton");
+
+const riveInstancemenu = new rive.Rive({
+    src: "assets/menu.riv",
+    stateMachines: "menuanime",
+    canvas: canvasmenu,
+    autoplay: true,
+    onLoad: () => {
+        console.log("Rive carregado com sucesso!");
+
+        // Obter as entradas da State Machine
+        const stateMachineInputs = riveInstancemenu.stateMachineInputs("menuanime");
+        const ligadoInput = stateMachineInputs.find(input => input.name === "ligado");
+
+        if (ligadoInput) {
+            console.log("Input 'ligado' encontrado:", ligadoInput);
+
+            // Alternar o booleano 'ligado' ao clicar no botão
+            toggleButton.addEventListener("click", () => {
+                ligadoInput.value = !ligadoInput.value; // Inverter o valor do booleano
+                toggleButton.textContent = ligadoInput.value ? "Desativar" : "Ativar"; // Atualizar o texto do botão
+            });
+        } else {
+            console.error("Input 'ligado' não encontrado na State Machine 'animeMenu'.");
+        }
+    },
+    onError: (error) => {
+        console.error("Erro ao carregar o Rive:", error);
+    },
+});

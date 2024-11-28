@@ -6,7 +6,7 @@ const canvas2 = document.getElementById("background");
         canvas2.height = window.innerHeight;
 
         const particlesArray = [];
-        const numParticles = 100;
+        const numParticles = 30;
 
         // Função para redimensionar o canvas ao ajustar o tamanho da janela
         window.addEventListener("resize", () => {
@@ -29,7 +29,7 @@ const canvas2 = document.getElementById("background");
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fillStyle = "#00bfff";
                 ctx.shadowColor = "#00bfff";
-                ctx.shadowBlur = 10;
+                ctx.shadowBlur = 90;
                 ctx.fill();
                 ctx.closePath();
             }
@@ -37,7 +37,6 @@ const canvas2 = document.getElementById("background");
             update() {
                 this.x += this.dx;
                 this.y += this.dy;
-
                 // Rebater nas bordas
                 if (this.x < 0 || this.x > canvas2.width) this.dx *= -1;
                 if (this.y < 0 || this.y > canvas2.height) this.dy *= -1;
@@ -46,12 +45,11 @@ const canvas2 = document.getElementById("background");
 
         // Criar partículas
         for (let i = 0; i < numParticles; i++) {
-            const size = Math.random() * 1 + 4; // Tamanho da partícula
+            const size = Math.random() * 1 + 1; // Tamanho da partícula
             const x = Math.random() * canvas2.width;
             const y = Math.random() * canvas2.height;
             const dx = (Math.random() - 0.5) ; // Velocidade horizontal
             const dy = (Math.random() - 0.5) ; // Velocidade vertical
-
             particlesArray.push(new Particle(x, y, size, dx, dy));
         }
 
@@ -64,7 +62,7 @@ const canvas2 = document.getElementById("background");
                     const distance = Math.sqrt(dx * dx + dy * dy);
 
                     if (distance < 100) {
-                        const opacity = 1 - distance / 120;
+                        const opacity = 1 - distance / 100;
                         ctx.beginPath();
                         ctx.strokeStyle = `rgba(0, 191, 255, ${opacity})`; 
                         ctx.lineWidth = 3;
@@ -90,5 +88,4 @@ const canvas2 = document.getElementById("background");
             connectParticles();
             requestAnimationFrame(animate);
         }
-
         animate();
