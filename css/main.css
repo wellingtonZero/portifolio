@@ -1,0 +1,87 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #000000;
+    
+}
+
+.container {
+    position: relative;
+    width: 250%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    flex-direction: column;
+}
+
+.top-bar {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 50px;
+    background: #004433;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    clip-path: polygon(0% 0%, 100% 0%, 90% 100%, 10% 100%);
+}
+
+.top-bar:before,
+.top-bar:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 20%;
+    height: 2px;
+    background-color: rgb(0, 195, 255);
+    box-shadow: 0 0 10px rgb(0, 203, 253), 0 0 20px rgb(0, 195, 255);
+}
+
+.top-bar:before {
+    left: 5%;
+    transform: translateY(-50%);
+}
+
+.top-bar:after {
+    right: 5%;
+    transform: translateY(-50%);
+}
+
+.date-container {
+    text-align: center;
+    color: white;
+}
+
+.date-container .month {
+    font-size: 15px;
+    text-transform: uppercase;
+    color: rgb(0, 183, 255);
+}
+
+.date-container .day {
+    font-size: 20px;
+    color: rgb(0, 212, 240);
+    font-weight: bold;
+}
+
+.date-container .year {
+    font-size: 12px;
+    color: white;
+}
+
+.bottom-line {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    width: 90%;
+    height: 2px;
+    background: rgb(0, 217, 255);
+    transform: translateX(-50%);
+    box-shadow: 0 0 10px rgb(0, 217, 255), 0 0 20px rgb(0, 217, 255);
+}

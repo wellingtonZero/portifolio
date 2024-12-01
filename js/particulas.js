@@ -1,17 +1,17 @@
-const canvas2 = document.getElementById("background");
-        const ctx = canvas2.getContext("2d");
+const canvas3 = document.getElementById("background");
+        const ctx = canvas3.getContext("2d");
 
         // Ajustar o tamanho do canvas para preencher a tela
-        canvas2.width = window.innerWidth;
-        canvas2.height = window.innerHeight;
+        canvas3.width = window.innerWidth;
+        canvas3.height = window.innerHeight;
 
         const particlesArray = [];
         const numParticles = 30;
 
         // Função para redimensionar o canvas ao ajustar o tamanho da janela
         window.addEventListener("resize", () => {
-            canvas2.width = window.innerWidth;
-            canvas2.height = window.innerHeight;
+            canvas3.width = window.innerWidth;
+            canvas3.height = window.innerHeight;
         });
 
         // Classe para criar as partículas
@@ -38,16 +38,16 @@ const canvas2 = document.getElementById("background");
                 this.x += this.dx;
                 this.y += this.dy;
                 // Rebater nas bordas
-                if (this.x < 0 || this.x > canvas2.width) this.dx *= -1;
-                if (this.y < 0 || this.y > canvas2.height) this.dy *= -1;
+                if (this.x < 0 || this.x > canvas3.width) this.dx *= -1;
+                if (this.y < 0 || this.y > canvas3.height) this.dy *= -1;
             }
         }
 
         // Criar partículas
         for (let i = 0; i < numParticles; i++) {
             const size = Math.random() * 1 + 1; // Tamanho da partícula
-            const x = Math.random() * canvas2.width;
-            const y = Math.random() * canvas2.height;
+            const x = Math.random() * canvas3.width;
+            const y = Math.random() * canvas3.height;
             const dx = (Math.random() - 0.5) ; // Velocidade horizontal
             const dy = (Math.random() - 0.5) ; // Velocidade vertical
             particlesArray.push(new Particle(x, y, size, dx, dy));
@@ -78,7 +78,7 @@ const canvas2 = document.getElementById("background");
 
         // Função de animação
         function animate() {
-            ctx.clearRect(0, 0, canvas2.width, canvas2.height);
+            ctx.clearRect(0, 0, canvas3.width, canvas3.height);
 
             particlesArray.forEach((particle) => {
                 particle.draw();

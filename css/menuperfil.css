@@ -1,0 +1,110 @@
+
+canvas {
+    width: 50%;
+    height: auto;
+    background-color: #00000000;
+    transition: transform 0.5s ease, width 0.5s ease;
+}
+
+.canvas-move-moldura {
+    transform: translate(-200%, 35%);
+    width: 20%;
+}
+
+
+#riveCanvasMoldura {
+    position: absolute;
+    z-index: 4;
+}
+
+#riveCanvasMenu {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-249%, 410%);
+    z-index: 5;
+    background-color: transparent;
+    width: 20%;
+}
+
+#riveCanvasTexto {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-30%, -55%);
+    z-index: 6;
+    /* Certifique-se de que o canvas menu esteja acima de outros elementos */
+    background-color: transparent;
+    visibility: hidden;
+    width: 60%;
+    height: 80%
+}
+
+.center {
+    position: absolute;
+    top: 60%;
+    left: 49%;
+    transform: translate(-140%, -68%);
+    transition: all 0.5s ease;
+    width: 30%;
+    z-index: 4;
+}
+
+.container-filho {
+    position: absolute;
+    top: 55px;
+    width: 0;
+    height: 0;
+    background-color: #000;
+    border: 2px solid #000;
+    border-radius: 10px;
+    border-color: rgb(0, 162, 255);
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    z-index: 4;
+    transform-origin: center;
+    transition: width 1s ease-out, height 1s ease-out;
+}
+
+#background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    /* Canvas de fundo */
+}
+
+h1 {
+    color: white;
+}
+
+.typewriter {
+    margin-top: 20px;
+    font-size: 30px;
+    text-align: center;
+    color: rgb(0, 225, 255);
+    visibility: hidden;
+}
+
+.cursor {
+    margin-left: 5px;
+    width: 1em;
+    height: 3px;
+    background-color: #00bfff;
+    animation: blink 0.5s step-end infinite;
+    display: inline-block;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+.expanded {
+    width: 80%;
+    height: 65%;
+}
